@@ -33,11 +33,45 @@
 
 Для реализации основного меню можно использовать пример ниже или написать свой
 """
+import os
+
+ACCOUNT_SUM = 'acc_sum.txt'
+PURCHASE_HYSTORY = 'perchase_hyst.txt'
+
+def read_file(file_name):
+    '''
+    Фукция считывания файла
+    :param file_name: название файла
+    :return temp_: считанный с файла текст в виде строки
+    '''
+    with open(file_name, 'r') as f:
+            temp_ = f.read()
+    return temp_
+
+def write_file(file_name, text_file):
+    '''
+    Функция записи в файл
+    :param file_name:
+    :return:
+    '''
+    with open(file_name, 'w') as f:
+        f.write(f'{text_file}')
+
 def bank_game():
-    bank_account = 0
+
+    if os.path.exists(ACCOUNT_SUM):
+        bank_account = int(read_file(ACCOUNT_SUM))
+    else:
+        bank_account = 0
+
+    if os.path.exists(PURCHASE_HYSTORY):
+        purchase_history = read_file(PURCHASE_HYSTORY)
+    else:
+        purchase_history = []
+
     temp_amount = 0
     temp_purchase = 0
-    purchase_history = []
+
     while True:
         print(f'У Вас на счету: {bank_account} рублей')
         print('1. пополнение счета')
@@ -49,7 +83,7 @@ def bank_game():
 
         if choice == '1':
             while True:
-                temp_amount = input('Введите сумму для поплнения: ')
+                temp_amount = input('Введите сумму для пополнения: ')
                 try:
                     temp_amount = int(temp_amount)
                     break
@@ -74,6 +108,12 @@ def bank_game():
         elif choice == '3':
             print(purchase_history)
         elif choice == '4':
+            write_file(ACCOUNT_SUM, bank_account)
+            write_file(PURCHASE_HYSTORY, purchase_history)
             break
+
         else:
             print('Неверный пункт меню')
+
+if __name__ == '__main__':
+    bank_game()

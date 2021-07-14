@@ -79,14 +79,18 @@ def copy_dir_file():
             print('Пункт меню не распознан, попробуйте еще раз: ')
 
 def show_dirs():
+    dirs_list = []
     for el in os.listdir(os.getcwd()):
         if os.path.isdir(os.path.join('.', el)) == True:
-            print(el)
+            dirs_list.append(el)
+    return dirs_list
 
 def show_files():
+    files_list = []
     for el in os.listdir(os.getcwd()):
         if os.path.isdir(os.path.join('.', el)) == False:
-            print(el)
+            files_list.append(el)
+    return files_list
 
 def change_dir():
     while True:
